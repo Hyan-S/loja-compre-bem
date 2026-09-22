@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import { View, Text, Image, Pressable, Button, StyleSheet } from 'react-native';
+import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 
-function ProdutoItem({ produto, onPress }) {
-  const [favorito, setFavorito] = useState(false);
-
+function ProdutoItem({ produto, favorito, onAlternarFavorito, onPress }) {
   return (
     <Pressable style={styles.item} onPress={onPress}>
       <Image source={produto.imagem} style={styles.imagem} />
@@ -13,7 +10,15 @@ function ProdutoItem({ produto, onPress }) {
         <Text style={styles.preco}>{produto.preco}</Text>
       </View>
 
-      <Button title={favorito ? '♥' : '♡'} onPress={() => setFavorito(!favorito)} />
+      <Pressable
+        style={styles.coracao}
+        onPress={onAlternarFavorito}
+        hitSlop={10}
+        accessibilityRole="button"
+        accessibilityLabel={favorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+      >
+        <Text style={styles.coracaoTexto}>{favorito ? '♥' : '♡'}</Text>
+      </Pressable>
     </Pressable>
   );
 }
@@ -43,6 +48,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#2E7D32',
     marginTop: 4,
+  },
+  coracao: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    backgroundColor: 'transparent',
+  },
+  coracaoTexto: {
+    fontSize: 26,
+    lineHeight: 30,
+    color: '#E53935',
   },
 });
 
